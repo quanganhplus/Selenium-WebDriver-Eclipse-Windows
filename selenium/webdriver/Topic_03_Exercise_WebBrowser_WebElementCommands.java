@@ -80,9 +80,9 @@ public class Topic_03_Exercise_WebBrowser_WebElementCommands {
         driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
         sleepInSecond(3);
      	
-        //click vao button CREATE AN ACCOUNT
+        //click vao button CREATE AN ACCOUNT 
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
-        sleepInSecond(3);
+        sleepInSecond(3); 
      	
      	// Register Page Url matching
      	String registerPageUrl = driver.getCurrentUrl();
