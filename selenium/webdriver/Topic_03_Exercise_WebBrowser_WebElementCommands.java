@@ -112,15 +112,15 @@ public class Topic_03_Exercise_WebBrowser_WebElementCommands {
         driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
         sleepInSecond(3);
         
-        //Kiem tra xem Loigin Page chua text : Login or Create an Account
+        //Kiem tra xem Loigin Page chứa text : Login or Create an Account
         String homePageSource = driver.getPageSource();
         Assert.assertTrue(homePageSource.contains("Login or Create an Account"));
         
-        //click vao button CREATE AN ACCOUNT
+        //click vào button CREATE AN ACCOUNT
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
         sleepInSecond(3);
         
-        //Kiem tra xem Register Page chua text : Create an Account
+        //Kiem tra xem Register Page chứa text : Create an Account
         String registerPageSource = driver.getPageSource();
         Assert.assertTrue(registerPageSource.contains("Create an Account"));
     }
