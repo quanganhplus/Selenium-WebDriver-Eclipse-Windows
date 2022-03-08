@@ -30,16 +30,34 @@ public class Topic_04_Exercise_Xpath_CSS_Register {
 
         driver.manage().window().maximize();
 
-        // Mở trang tạo account techpanda lên
-        driver.get("http://live.techpanda.org/");
+       
     	}
     
     @Test
 	public void TC_01_Register_with_emty_data() {
     	
+    	 // Mở trang đăng ký alada lên
+        driver.get("https://alada.vn/tai-khoan/dang-ky.html");
     	
-    	
-    	
+    	// Click button Đăng ký
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        
+        //Kiểm tra các erorr message hiển thị tại form đăng ký ở các field bắt buộc
+        driver.findElement(By.xpath("//label[@id='txtFirstname-error']")).getText();
+        driver.findElement(By.xpath("//label[@id='txtEmail-error']")).getText();
+        driver.findElement(By.xpath("//label[@id='txtCEmail-error']")).getText();
+        driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).getText();
+        driver.findElement(By.xpath("//label[@id='txtPhone-error']")).getText();
+        
+        
+        //Kiểm tra 1 điều kiện trả về là bằng với điều kiện mong muốn
+        Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtFirstname-error']")).getText(), "Vui lòng nhập họ tên");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtEmail-error']")).getText(), "Vui lòng nhập email");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtCEmail-error']")).getText(), "Vui lòng nhập lại địa chỉ email");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPassword-error']")).getText(), "Vui lòng nhập mật khẩu");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).getText(), "Vui lòng nhập lại mật khẩu");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).getText(), "Vui lòng nhập số điện thoại.");
+        
 	}
     
     
