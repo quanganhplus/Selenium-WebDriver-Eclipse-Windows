@@ -173,7 +173,7 @@ public class Topic_04_Exercise_Xpath_CSS_Register {
     	// Mở trang đăng ký alada lên
         driver.get("https://alada.vn/tai-khoan/dang-ky.html");
     	
-        //nhập dữ liệu hợp lệ vào các field ngoại trừ Email và Confirm email
+        //nhập dữ liệu hợp lệ vào các field ngoại trừ Phone number
         driver.findElement(By.xpath("//input[@id='txtFirstname']")).sendKeys("quanganh trinh");
         sleepInSecond(3);
         
