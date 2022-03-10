@@ -19,7 +19,7 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
     String projectPath = System.getProperty("user.dir");
     
     //Khai báo biến 
-    String firstName, fullName, lastName, emailAddress;
+    String firstName, fullName, lastName, emailAddress, password;
 
     @BeforeClass
     public void beforeClass() {
@@ -33,7 +33,8 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
 		lastName = "trinh";
 		fullName = firstName +" "+ lastName;
 		emailAddress = "quanganh.plus" + getRandomNumber() + "@gmail.com";
-
+		password = "123456";
+		
         //Set thời gian chờ để tìm đc element
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
@@ -143,8 +144,20 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
     @Test
     public void TC_06_Login_with_valid_Email_and_Password() {
     	
+    	driver.get("http://live.techpanda.org/");
+    	driver.findElement(By.xpath("//div[@class='footer-container']//a[@title='My Account']")).click();
+    	driver.findElement(By.xpath("//input[@id='email']")).sendKeys(emailAddress);
+    	sleepInSecond(1);
+    	driver.findElement(By.xpath("//input[@id='pass']")).sendKeys(password);
+    	sleepInSecond(1);
+    	driver.findElement(By.xpath("//button[@id='send2']")).click();
     	
-    	
+    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//p[@class='hello']")).getText(), "Hello, "+ fullName +"!");
+    	sleepInSecond(1);
+    	String contactInformation = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+		Assert.assertTrue(contactInformation.contains(fullName));
+		Assert.assertTrue(contactInformation.contains(emailAddress));
+		sleepInSecond(1);
     }
     
     @AfterClass
