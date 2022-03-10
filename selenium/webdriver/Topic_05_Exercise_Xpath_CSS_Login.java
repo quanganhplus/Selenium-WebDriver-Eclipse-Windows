@@ -8,6 +8,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
@@ -16,6 +17,9 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
     String projectPath = System.getProperty("user.dir");
+    
+    //Khai báo biến 
+    String firstName, fullName, lastName, emailAddress;
 
     @BeforeClass
     public void beforeClass() {
@@ -24,6 +28,11 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
 
     	System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 		driver = new ChromeDriver();
+		
+		firstName = "quang anh";
+		lastName = "trinh";
+		fullName = firstName +" "+ lastName;
+		emailAddress = "quanganh.plus" + getRandomNumber() + "@gmail.com";
 
         //Set thời gian chờ để tìm đc element
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -98,11 +107,11 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
     	driver.get("http://live.techpanda.org/");
     	driver.findElement(By.xpath("//div[@class='footer-container']//a[@title='My Account']")).click();
     	driver.findElement(By.xpath("//a[@class='button']")).click();
-    	driver.findElement(By.xpath("//input[@id='firstname']")).sendKeys("quang anh");
+    	driver.findElement(By.xpath("//input[@id='firstname']")).sendKeys(firstName);
     	sleepInSecond(1);
-    	driver.findElement(By.xpath("//input[@id='lastname']")).sendKeys("trinh");
+    	driver.findElement(By.xpath("//input[@id='lastname']")).sendKeys(lastName);
     	sleepInSecond(1);
-    	driver.findElement(By.xpath("//input[@id='email_address']")).sendKeys("quanganh.plus@hotmail.com.vn");
+    	driver.findElement(By.xpath("//input[@id='email_address']")).sendKeys(emailAddress);
     	sleepInSecond(1);
     	driver.findElement(By.xpath("//input[@id='password']")).sendKeys("123456");
     	sleepInSecond(1);
@@ -112,19 +121,21 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
     	sleepInSecond(1);
     	Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']")).getText(), "Thank you for registering with Main Website Store.");
     	sleepInSecond(1);
-    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//p[@class='hello']")).getText(), "Hello, quang anh trinh!");
+    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//p[@class='hello']")).getText(), "Hello, "+ fullName +"!");
     	sleepInSecond(1);
-//    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='box-content']")).getText(), "quang anh trinh");
-//    	sleepInSecond(1);
-//    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='box-content']")).getText(), "quanganh.plus@gmail.com.au");
-//    	sleepInSecond(1);
+
+    	String contactInformation = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+		Assert.assertTrue(contactInformation.contains(fullName));
+		Assert.assertTrue(contactInformation.contains(emailAddress));
+		sleepInSecond(1);
+		
     	driver.findElement(By.xpath("//div[@class='account-cart-wrapper']//a[@class=\"skip-link skip-account\"]")).click();
     	sleepInSecond(1);
     	driver.findElement(By.xpath("//li[@class=' last']")).click();
     	sleepInSecond(1);
-    	// Home Page Url matching
-     	String homePageUrl = driver.getCurrentUrl();
-     	Assert.assertEquals(homePageUrl, "http://live.techpanda.org/index.php/customer/account/logoutSuccess/");
+    	// Logout Page Url matching
+     	String logoutPageUrl = driver.getCurrentUrl();
+     	Assert.assertEquals(logoutPageUrl, "http://live.techpanda.org/index.php/customer/account/logoutSuccess/");
     	
     }
     
@@ -148,4 +159,10 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
             e.printStackTrace();
         }
     }
+    
+    public int getRandomNumber()
+	{
+		Random rand = new Random();
+		return rand.nextInt(9999);
+	}
 }
