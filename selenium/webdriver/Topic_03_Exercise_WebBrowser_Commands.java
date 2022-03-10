@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
 
 
-public class Topic_03_Exercise_WebBrowser_WebElementCommands {
+public class Topic_03_Exercise_WebBrowser_Commands {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
