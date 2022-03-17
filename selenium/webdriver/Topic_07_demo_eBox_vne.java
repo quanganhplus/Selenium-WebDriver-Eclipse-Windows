@@ -19,8 +19,6 @@ public class Topic_07_demo_eBox_vne {
     WebDriver driver;
     String projectPath = System.getProperty("user.dir");
     
-    //Khai báo biến 
-    String firstName, fullName, lastName, emailAddress, password;
 
     @BeforeClass
     public void beforeClass() {
@@ -45,9 +43,8 @@ public class Topic_07_demo_eBox_vne {
     	driver.findElement(By.xpath("//button[@class='btn btn-add-to-cart add-to-cart pc btn_buy_21']")).click();
     	sleepInSecond(2);
     	
-    	//Switch vào iframe chứa element này trước
-    	driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@class='mfp-iframe iframe_guest']")));
-    	
+    	//Switch vào iframe login vne này trước
+    	driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@class='mfp-iframe iframe_guest']")));    	
     	driver.findElement(By.xpath("//input[@name='myvne_email']")).sendKeys("duy.taddy@gmail.com");
     	driver.findElement(By.xpath("//input[@name='myvne_password']")).sendKeys("Duy123456");
     	driver.findElement(By.xpath("//button[@id='myvne_button_login']")).click();
@@ -55,31 +52,34 @@ public class Topic_07_demo_eBox_vne {
     	
 //    	//Verify password textbox
 //    	Assert.assertTrue(driver.findElement(By.xpath("//input[@name='myvne_password']")).isDisplayed());
-//    	
-    	//Switch to parent
+  	
+    	//Switch to parent - thoát iFrame login vne 
     	driver.switchTo().defaultContent();
     	sleepInSecond(3);
     	
     	driver.findElement(By.xpath("//button[@class='btn btn-add-to-cart add-to-cart pc btn_buy_21']")).click();
     	sleepInSecond(2);
     	
-    	//trang Payment
+    	//chuyển đến trang Mua vé cá nhân
     	driver.findElement(By.xpath("//button[@id='btnOrderPersonal']")).click();
     	sleepInSecond(2);
     	
+    	//chuyển đến trang thanh toán & chọn thanh toán chuyển khoản
     	driver.findElement(By.xpath("//span[text()='Chuyển khoản']")).click();
     	sleepInSecond(2);
     	
-    	//Switch vào iframe chứa element này trước
+    	//Switch vào iframe chứa element reCAPTCHA
     	driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='reCAPTCHA']")));
     	driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).click();
     	sleepInSecond(3);
+    	//thoát iFrame
     	driver.switchTo().defaultContent();
     	sleepInSecond(3);
     	
     	driver.findElement(By.xpath("//button[@id='btn-payment']")).click();
     	sleepInSecond(2);
     	
+    	//xác nhận chuyển khoản
     	driver.findElement(By.xpath("//button[@class='btn-ebox ebox-bg-primary']")).click();
     	sleepInSecond(2);
 	}
