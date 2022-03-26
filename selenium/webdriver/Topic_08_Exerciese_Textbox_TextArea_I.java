@@ -76,6 +76,7 @@ import java.util.concurrent.TimeUnit;
     	String homePageWelcomeMsg = driver.findElement(By.xpath("//marquee[contains(text(),'Welcome To Manager')]")).getText();
     	Assert.assertEquals(homePageWelcomeMsg, "Welcome To Manager's Page of Guru99 Bank");
     	
+    	//Verify màn hình hiển thị userID thành công
     	Assert.assertTrue(driver.findElement(By.xpath("//tr[@class='heading3']/td[text()='Manger Id : "+ userID +"']")).isDisplayed());
     	
     	}
@@ -102,6 +103,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.xpath("//input[@name='sub']")).click();
         sleepInSecond(3);
     	
+        //Verify màn hình hiển thị New Customer form thành công
     	Assert.assertTrue(driver.findElement(By.xpath("//p[@class='heading3' and text()='Customer Registered Successfully!!!']")).isDisplayed());
     	
     	//Verify output data = input data
@@ -128,6 +130,7 @@ import java.util.concurrent.TimeUnit;
     	driver.findElement(By.xpath("//input[@name='cusid']")).sendKeys(customerID);
     	driver.findElement(By.xpath("//input[@name='AccSubmit']")).click();
     	
+    	//Verify output at Edit Customer form = input at New Customer form
     	Assert.assertEquals(customerName, driver.findElement(nameTextbox).getAttribute("value"));
     	Assert.assertEquals(address, driver.findElement(addressTextArea).getText());
     	
@@ -144,9 +147,12 @@ import java.util.concurrent.TimeUnit;
     	driver.findElement(emailTextbox).clear();
     	driver.findElement(emailTextbox).sendKeys(editEmail);
     	driver.findElement(By.xpath("//input[@name='sub']")).click();
-    	    	
+    	
+    	//Verify màn hình hiển thị Edit Customer form thành công
     	Assert.assertTrue(driver.findElement(By.xpath("//p[@class='heading3' and text()='Customer details updated Successfully!!!']")).isDisplayed());
     	
+    	
+    	//Verify output data = input data
     	Assert.assertEquals(customerID, driver.findElement(By.xpath("//td[text()='Customer ID']//following-sibling::td")).getText());
     	Assert.assertEquals(customerName, driver.findElement(By.xpath("//td[text()='Customer Name']//following-sibling::td")).getText());
     	Assert.assertEquals(gender, driver.findElement(By.xpath("//td[text()='Gender']//following-sibling::td")).getText());
