@@ -114,9 +114,9 @@ public class Topic_05_Exercise_Xpath_CSS_Login {
     	sleepInSecond(1);
     	driver.findElement(By.xpath("//input[@id='email_address']")).sendKeys(emailAddress);
     	sleepInSecond(1);
-    	driver.findElement(By.xpath("//input[@id='password']")).sendKeys("123456");
+    	driver.findElement(By.xpath("//input[@id='password']")).sendKeys(password);
     	sleepInSecond(1);
-    	driver.findElement(By.xpath("//input[@id='confirmation']")).sendKeys("123456");
+    	driver.findElement(By.xpath("//input[@id='confirmation']")).sendKeys(password);
     	sleepInSecond(1);
     	driver.findElement(By.xpath("//button[@class='button']")).click();
     	sleepInSecond(1);
