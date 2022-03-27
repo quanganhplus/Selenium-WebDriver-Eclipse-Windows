@@ -147,6 +147,7 @@ import java.util.concurrent.TimeUnit;
     	driver.findElement(emailTextbox).clear();
     	driver.findElement(emailTextbox).sendKeys(editEmail);
     	driver.findElement(By.xpath("//input[@name='sub']")).click();
+    	sleepInSecond(3);
     	
     	//Verify màn hình hiển thị Edit Customer form thành công
     	Assert.assertTrue(driver.findElement(By.xpath("//p[@class='heading3' and text()='Customer details updated Successfully!!!']")).isDisplayed());
