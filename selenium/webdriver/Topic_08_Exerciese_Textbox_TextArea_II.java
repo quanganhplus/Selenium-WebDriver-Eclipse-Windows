@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 	    String lastName = "trinh";
 	   		    
 	    //input New Edit Employee
-	    String newFullName = "thuy linh";
+	    String newFirstName = "thuy linh";
 	    String newLastName = "bui";
 	    
 	    //Locator at Personal Details
@@ -82,7 +82,7 @@ import java.util.concurrent.TimeUnit;
     	
     	//clear và nhập giá trị FullName , LastName sau khi click Edit
     	driver.findElement(EmpFirstName).clear();
-    	driver.findElement(EmpFirstName).sendKeys(newFullName);
+    	driver.findElement(EmpFirstName).sendKeys(newFirstName);
     	driver.findElement(EmpLastName).clear();
     	driver.findElement(EmpLastName).sendKeys(newLastName);
     	
@@ -93,7 +93,7 @@ import java.util.concurrent.TimeUnit;
     	driver.findElement(By.xpath("//input[@id='btnSave']")).click();
     	
     	//Verify FisrtName/LastName update thành công
-    	Assert.assertEquals(newFullName , driver.findElement(EmpFirstName).getAttribute("value"));
+    	Assert.assertEquals(newFirstName , driver.findElement(EmpFirstName).getAttribute("value"));
     	Assert.assertEquals(newLastName , driver.findElement(EmpLastName).getAttribute("value"));
     	
     	//Verify các textbox: FistName/LastName/EmployeeID bị disable
