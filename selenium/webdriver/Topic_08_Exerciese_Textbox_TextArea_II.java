@@ -3,11 +3,10 @@ package webdriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
@@ -17,34 +16,23 @@ import java.util.concurrent.TimeUnit;
 	    WebDriver driver;
 	    String projectPath = System.getProperty("user.dir");
 	    
-	    String customerID;
-	    String userID = "mngr394649";
-	    String password = "gehYdaj";
+	    String employeeID;
+	    String userName = "Admin";
+	    String password = "admin123";
 	    
-	    //input New Customer / Output data
-	    String customerName = "quang anh";
-	    String gender = "male";
-	    String dateOfBirth = "03252022";
-	    String address = "121 Nguyen Dinh Chieu";
-	    String city = "Ha Noi";
-	    String state = "hbt";
-	    String pin = "123456";
-	    String phone = "0977825562";
-	    String email = "quanganh" + getRandomNumber() + "@gmail.com";
+	    //input New Employee
+	    String firstName = "quang anh";
+	    String lastName = "trinh";
+	   		    
+	    //input New Edit Employee
+	    String newFullName = "thuy linh";
+	    String newLastName = "bui";
 	    
+	    //Locator at Personal Details
+	    By EmpFirstName = By.xpath("//input[@id='personal_txtEmpFirstName']");
+	    By EmpLastName = By.xpath("//input[@id='personal_txtEmpLastName']");
+	    By EmployeeId = By.xpath("//input[@id='personal_txtEmployeeId']");
 	    
-	    //Locator for New Customer / Edit Customer form
-	    By nameTextbox = By.name("name");
-	    By genderRadio = By.xpath("//input[@value=\"m\"]");
-	    By genderTextbox = By.name("gender");
-	 	By dobTextbox = By.name("dob");
-	    By addressTextArea = By.name("addr");
-	    By cityTextbox = By.name("city");
-	    By sateTextbox = By.name("state");
-	    By pinTextbox = By.name("pinno");
-	    By phoneTextbox = By.name("telephoneno");
-	    By emailTextbox = By.name("emailid");
-	    By passwordTextbox = By.name("password");
 	    
 	    																		
     @BeforeClass
@@ -57,28 +45,61 @@ import java.util.concurrent.TimeUnit;
 
         //Set thời gian chờ để tìm đc element
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-
         driver.manage().window().maximize();
         
-        driver.get("https://demo.guru99.com/v4/");
-        
-    	
+        driver.get("https://opensource-demo.orangehrmlive.com/");
+        driver.findElement(By.xpath("//input[@id='txtUsername']")).sendKeys(userName);
+        driver.findElement(By.xpath("//input[@id='txtPassword']")).sendKeys(password);
+    	driver.findElement(By.xpath("//input[@id='btnLogin']")).click();
+    	sleepInSecond(3);
     	}
     
     @Test
-	public void TC_01_New_Customer() {
+	public void TC_01_New_Employee() {
     	
+    	driver.get("https://opensource-demo.orangehrmlive.com/index.php/pim/addEmployee");
+    	driver.findElement(By.xpath("//input[@id='firstName']")).sendKeys(firstName);
+    	driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys(lastName);
+    	employeeID = driver.findElement(By.xpath("//input[@id='employeeId']")).getAttribute("value");
+    	System.out.println("employeeID là :" + employeeID);
+    	driver.findElement(By.xpath("//input[@id='btnSave']")).click();
     	
+    	//Verify input at Add Employee = output at Personal Detail
+    	Assert.assertEquals(firstName , driver.findElement(EmpFirstName).getAttribute("value"));
+    	Assert.assertEquals(lastName , driver.findElement(EmpLastName).getAttribute("value"));
+    	Assert.assertEquals(employeeID , driver.findElement(EmployeeId).getAttribute("value"));
     	
+    	//Verify các textbox: FistName/LastName/EmployeeID bị disable
+    	Assert.assertFalse(driver.findElement(EmpFirstName).isEnabled());
+    	Assert.assertFalse(driver.findElement(EmpLastName).isEnabled());
+    	Assert.assertFalse(driver.findElement(EmployeeId).isEnabled());
     	
-	}
-    
-    
+    	driver.findElement(By.xpath("//input[@id='btnSave']")).click();
+    }
+    	
     @Test
-    public void TC_02_Edit_Customer() {
+    public void TC_02_Edit_Employee() {
     	
+    	//clear và nhập giá trị FullName , LastName sau khi click Edit
+    	driver.findElement(EmpFirstName).clear();
+    	driver.findElement(EmpFirstName).sendKeys(newFullName);
+    	driver.findElement(EmpLastName).clear();
+    	driver.findElement(EmpLastName).sendKeys(newLastName);
     	
+    	//Verify các textbox: FistName/LastName enabled
+    	Assert.assertTrue(driver.findElement(EmpFirstName).isEnabled());
+    	Assert.assertTrue(driver.findElement(EmpLastName).isEnabled());
     	
+    	driver.findElement(By.xpath("//input[@id='btnSave']")).click();
+    	
+    	//Verify FisrtName/LastName update thành công
+    	Assert.assertEquals(newFullName , driver.findElement(EmpFirstName).getAttribute("value"));
+    	Assert.assertEquals(newLastName , driver.findElement(EmpLastName).getAttribute("value"));
+    	
+    	//Verify các textbox: FistName/LastName/EmployeeID bị disable
+    	Assert.assertFalse(driver.findElement(EmpFirstName).isEnabled());
+    	Assert.assertFalse(driver.findElement(EmpLastName).isEnabled());
+    	Assert.assertFalse(driver.findElement(EmployeeId).isEnabled());
 	}
     
     
@@ -96,9 +117,4 @@ import java.util.concurrent.TimeUnit;
         }
     }
     
-    public int getRandomNumber()
-	{
-		Random rand = new Random();
-		return rand.nextInt(9999);
-	}
 }
