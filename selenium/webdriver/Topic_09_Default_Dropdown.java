@@ -29,6 +29,13 @@ public class Topic_09_Default_Dropdown {
     Actions action;
     Select select;
     
+    String FirstName = "quang anh";
+    String LastName = "trinh";
+    String Day = "10";
+    String Month = "October";
+    String Year = "2020";
+    String Email = "quanganh" + getRandomNumber() + "@gmail.com";
+    String Password = "123456";
 
     @BeforeClass
     public void beforeClass() {
@@ -47,11 +54,10 @@ public class Topic_09_Default_Dropdown {
         //Set thời gian chờ để tìm đc element
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-
-       
+        
     	}
     
-    @Test
+    //@Test
 	public void TC_01_Rode() {
     	//web lỗi
     	driver.get("https://rode.com/en/support/where-to-buy");
@@ -92,7 +98,46 @@ public class Topic_09_Default_Dropdown {
     @Test
     public void TC_02_NopeCommerce() {
     	
+    	driver.get("https://demo.nopcommerce.com/");
+    	driver.findElement(By.xpath("//a[@class='ico-register']")).click();
+    	driver.findElement(By.xpath("//input[@id='FirstName']")).sendKeys(FirstName);
+    	driver.findElement(By.xpath("//input[@id='LastName']")).sendKeys(LastName);
     	
+    	//Date
+    	select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthDay']")));
+    	select.selectByVisibleText(Day);
+    	
+    	//Month
+    	select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthMonth']")));
+    	select.selectByVisibleText(Month);
+    	
+    	//Year
+    	select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthYear']")));
+    	select.selectByVisibleText(Year);
+    	
+    	driver.findElement(By.xpath("//input[@id='Email']")).sendKeys(Email);   	
+    	driver.findElement(By.xpath("//input[@id='Password']")).sendKeys(Password);
+    	driver.findElement(By.xpath("//input[@id='ConfirmPassword']")).sendKeys(Password); 	
+    	driver.findElement(By.xpath("//button[@id='register-button']")).click();
+    	
+    	Assert.assertTrue(driver.findElement(By.xpath("//div[@class='result' and text()='Your registration completed']")).isDisplayed());
+    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='result']")).getText(), "Your registration completed");
+    	
+    	driver.findElement(By.xpath("//a[@class='ico-account']")).click();
+    	
+    	Assert.assertEquals(FirstName, driver.findElement(By.xpath("//input[@id='FirstName']")).getAttribute("value"));
+    	Assert.assertEquals(LastName, driver.findElement(By.xpath("//input[@id='LastName']")).getAttribute("value"));
+    	
+    	select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthDay']")));
+    	Assert.assertEquals(Day, select.getFirstSelectedOption().getText());
+    	
+    	select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthMonth']")));
+    	Assert.assertEquals(Month, select.getFirstSelectedOption().getText());
+    	
+    	select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthYear']")));
+    	Assert.assertEquals(Year, select.getFirstSelectedOption().getText());
+    	
+    	Assert.assertEquals(Email, driver.findElement(By.xpath("//input[@id='Email']")).getAttribute("value"));
     	
 	}
     
