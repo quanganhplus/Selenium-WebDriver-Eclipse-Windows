@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -53,21 +53,41 @@ public class Topic_10_Custom_Dropdown {
     	
     	driver.get("https://jqueryui.com/resources/demos/selectmenu/default.html");
     	
+    	selectItemInCustomDropdownList("span#number-button>span.ui-selectmenu-icon", "ul#number-menu div", "5");
+    	Assert.assertEquals("5", driver.findElement(By.cssSelector("span#number-button span.ui-selectmenu-text")).getText());
+    	
+    	selectItemInCustomDropdownList("span#number-button>span.ui-selectmenu-icon", "ul#number-menu div", "15");
+    	Assert.assertEquals("15", driver.findElement(By.cssSelector("span#number-button span.ui-selectmenu-text")).getText());
+    	
+    	selectItemInCustomDropdownList("span#number-button>span.ui-selectmenu-icon", "ul#number-menu div", "19");
+    	Assert.assertEquals("19", driver.findElement(By.cssSelector("span#number-button span.ui-selectmenu-text")).getText());
+    	
+    	selectItemInCustomDropdownList("span#number-button>span.ui-selectmenu-icon", "ul#number-menu div", "3");
+    	Assert.assertEquals("3", driver.findElement(By.cssSelector("span#number-button span.ui-selectmenu-text")).getText());
+    	
+    	//span#number-button>span.ui-selectmenu-icon
+    	//ul#number-menu div
+    	//5
+    	
+	}
+    
+    
+    public void selectItemInCustomDropdownList(String parentLocator, String childLocator, String expectedTextItem) {
+    	
     	//Step 1 : Click 1 element cho nó xổ hết ra các item
-    	driver.findElement(By.cssSelector("span#number-button>span.ui-selectmenu-icon")).click();
-    	sleepInSecond(3);
+    	driver.findElement(By.cssSelector(parentLocator)).click();
+    	sleepInSecond(2);
     	
     	//Step 2: Chờ cho các item load ra hết thành công 
     	//Lưu ý 1: Locator chứa hết tất cả các item
     	//Lưu ý 2: Locator đến node cuối cùng chứa text
-    	expliciWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("ul#number-menu div")));
+    	expliciWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childLocator)));
     	
     	//Step 3: Tìm item cần chọn
-    	// +B1: Nếu các item cần chọn nằm trong vùng nhìn thấy thì ko cần scroll xuống tìm tiếp
-    	// +B2: Nếu các item cần chọn nằm ở dưới thì scroll xuống đến item đó
+    	
     	
     	// Lấy hết tất cả các element (item) ra sau đó duyệt từng item 
-    	List<WebElement> allItems = driver.findElements(By.cssSelector("ul#number-menu div"));
+    	List<WebElement> allItems = driver.findElements(By.cssSelector(childLocator));
     	
     	//Duyệt qua từng item getText của item ra
     	for (WebElement item : allItems) {
@@ -75,17 +95,24 @@ public class Topic_10_Custom_Dropdown {
 			System.out.println("Actual Text = " + actualText);
 			
 			//Nếu text = text mong muốn (item cần click vào)
-			if (actualText.equals("5")) {
+			if (actualText.equals(expectedTextItem)) {
+				// +B1: Nếu các item cần chọn nằm trong vùng nhìn thấy thì ko cần scroll tới element tìm tiếp
+		    	// +B2: Nếu các item cần chọn nằm ở dưới thì scroll tới element
+				
+				jsExecutor.executeScript("arguments[0].scrollIntoView(true);", item);
+				sleepInSecond(2);
+				
 				//Step4 : Click vào item đó
 				item.click();
+				sleepInSecond(2);
 				
 				//Thoát khỏi vòng lặp ko có kiểm tra element tiếp theo nữa
 				break;
 			}
 		}
-	}
+    	
+    }
     
-
 
     @AfterClass
     public void afterClass() {
