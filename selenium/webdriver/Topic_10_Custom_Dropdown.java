@@ -23,7 +23,7 @@ public class Topic_10_Custom_Dropdown {
     WebDriver driver;
     String projectPath = System.getProperty("user.dir");    
     JavascriptExecutor jsExecutor;
-    WebDriverWait expliciWait;
+    WebDriverWait explicitWait;
     
 
     @BeforeClass
@@ -35,7 +35,7 @@ public class Topic_10_Custom_Dropdown {
 		driver = new ChromeDriver();
 		
 		//Wait cho các trạng thái của element : visible/ presence/ invisible/ staleness
-		expliciWait = new WebDriverWait(driver, 30);
+		explicitWait = new WebDriverWait(driver, 30);
 		
 		//Ép kiểu tường minh
 		jsExecutor = (JavascriptExecutor) driver;
@@ -81,7 +81,7 @@ public class Topic_10_Custom_Dropdown {
     	//Step 2: Chờ cho các item load ra hết thành công 
     	//Lưu ý 1: Locator chứa hết tất cả các item
     	//Lưu ý 2: Locator đến node cuối cùng chứa text
-    	expliciWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childLocator)));
+    	explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childLocator)));
     	
     	//Step 3: Tìm item cần chọn
     	
