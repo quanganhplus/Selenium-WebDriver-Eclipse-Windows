@@ -28,7 +28,7 @@ public class Topic_10_Custom_Dropdown {
 
     @BeforeClass
     public void beforeClass() {
-//		System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver");
+//		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 //		driver = new FirefoxDriver();
 
     	System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
@@ -48,7 +48,7 @@ public class Topic_10_Custom_Dropdown {
     	}
     
     
-    @Test
+    //@Test
     public void TC_01_jQuery() {
     	
     	driver.get("https://jqueryui.com/resources/demos/selectmenu/default.html");
@@ -70,6 +70,71 @@ public class Topic_10_Custom_Dropdown {
     	//5
     	
 	}
+    
+    
+    //@Test
+    public void TC_02_ReactJS() {
+    	
+    	driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
+    	
+    	selectItemInCustomDropdownList("i.dropdown", "div.item>span.text", "Stevie Feliciano");
+    	Assert.assertEquals("Stevie Feliciano", driver.findElement(By.cssSelector("div.divider.text")).getText());
+    	
+    	selectItemInCustomDropdownList("i.dropdown", "div.item>span.text", "Jenny Hess");
+    	Assert.assertEquals("Jenny Hess", driver.findElement(By.cssSelector("div.divider.text")).getText());
+    	
+    	selectItemInCustomDropdownList("i.dropdown", "div.item>span.text", "Justen Kitsune");
+    	Assert.assertEquals("Justen Kitsune", driver.findElement(By.cssSelector("div.divider.text")).getText());
+    }
+    
+    
+    //@Test
+    public void TC_03_VueJS() {
+    	
+    	driver.get("https://mikerodham.github.io/vue-dropdowns/");
+    	selectItemInCustomDropdownList("div.btn-group", "ul.dropdown-menu a", "Second Option");
+    	Assert.assertEquals("Second Option", driver.findElement(By.cssSelector("div.btn-group>li")).getText());
+    	
+    	selectItemInCustomDropdownList("div.btn-group", "ul.dropdown-menu a", "First Option");
+    	Assert.assertEquals("First Option", driver.findElement(By.cssSelector("div.btn-group>li")).getText());
+    	
+    	selectItemInCustomDropdownList("div.btn-group", "ul.dropdown-menu a", "Third Option");
+    	Assert.assertEquals("Third Option", driver.findElement(By.cssSelector("div.btn-group>li")).getText());
+    	
+    }
+    
+    @Test
+    public void TC_04_Angular() {
+    	
+    	driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
+    	sleepInSecond(5);
+
+    	//jsExecutor.executeScript("$(window).scrollTop(500)");
+    	jsExecutor.executeScript("document.querySelector(\"ng-select[bindvalue='provinceCode']\").scrollIntoView(true)");
+    	sleepInSecond(5);
+    	
+    	selectItemInCustomDropdownList("ng-select[bindvalue='provinceCode'] span.ng-arrow-wrapper", "span.ng-option-label", "Tỉnh Cao Bằng");
+    	//1: Text nó ko có nằm ở bên HTML
+    	String actualText = (String) jsExecutor.executeScript("return document.querySelector(\"ng-select[bindvalue='provinceCode'] span.ng-value-label\").innerText");
+    	Assert.assertEquals("Tỉnh Cao Bằng", actualText);
+    	
+    	//2 
+    	Assert.assertEquals("Tỉnh Cao Bằng", driver.findElement(By.cssSelector("ng-select[bindvalue='provinceCode'] span.ng-value-label")).getText());
+    	
+    	//3
+    	Assert.assertEquals("Tỉnh Cao Bằng", driver.findElement(By.cssSelector("ng-select[bindvalue='provinceCode'] span.ng-value-label")).getAttribute("innerText"));
+    	
+    	
+    	selectItemInCustomDropdownList("ng-select[bindvalue='districtCode'] span.ng-arrow-wrapper", "span.ng-option-label", "Huyện Trùng Khánh");
+    	sleepInSecond(5);
+    	
+    	jsExecutor.executeScript("$(window).scrollTop(500)");
+    	//jsExecutor.executeScript("document.querySelector(\"ng-select[bindvalue='wardCode']\").scrollIntoView(true)");
+    	sleepInSecond(5);
+    	
+    	selectItemInCustomDropdownList("ng-select[bindvalue='wardCode'] span.ng-arrow-wrapper", "span.ng-option-label", "Xã Quang Vinh");
+    	
+    }
     
     
     public void selectItemInCustomDropdownList(String parentLocator, String childLocator, String expectedTextItem) {
@@ -106,7 +171,7 @@ public class Topic_10_Custom_Dropdown {
 				item.click();
 				sleepInSecond(2);
 				
-				//Thoát khỏi vòng lặp ko có kiểm tra element tiếp theo nữa
+				//Thoát khỏi vòng lặp, ko có kiểm tra element tiếp theo nữa
 				break;
 			}
 		}
