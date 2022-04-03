@@ -20,7 +20,8 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
-    String projectPath = System.getProperty("user.dir");    
+    String projectPath = System.getProperty("user.dir");
+    String osName = System.getProperty("os.name");
     JavascriptExecutor jsExecutor;
     WebDriverWait explicitWait;
     
@@ -29,8 +30,14 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     public void beforeClass() {
 //		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 //		driver = new FirefoxDriver();
-
-    	System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+    	if (osName.startsWith("Windows")) {
+    		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+    	} else if (osName.startsWith("Mac")) {
+    		System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_mac");
+    	} else {
+    		System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_linux");
+    	}
+    	
 		driver = new ChromeDriver();
 		
 		//Wait cho các trạng thái của element : visible/ presence/ invisible/ staleness
@@ -148,7 +155,7 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     	
 	}
     
-    @Test
+    //@Test
     public void TC_04_Multiple_Checkbox() {
     	
     	driver.get("https://automationfc.github.io/multiple-fields/");
@@ -177,6 +184,67 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     	for (WebElement checkbox : checkboxes) {
     		Assert.assertFalse(checkbox.isSelected());
 		}
+    }
+    
+    //@Test
+    public void TC_05_Custom_Radio() {
+    	driver.get("https://material.angular.io/components/radio/examples");
+    	By winterCheckboxInput = By.cssSelector("input[value='Winter']");
+    	
+    	
+    	//Case 1: Dùng thẻ Input
+    	//Selenium click(); -> ElementNotInteractableException
+    	//iSelected() -> work
+    	
+    	
+    	//Case 2: Dùng thẻ Span
+    	//Selenium click(); -> work
+    	//iSelected() -> Not work
+    	
+    	
+    	//Case 3: Dùng thẻ Span -> click
+    	//Thẻ Input để - isSelected()
+    	
+    	
+    	//Case 4: dùng thẻ Input
+    	//Javascript - click (không quan tâm Element ẩn hay hiện)
+    	//isSelected để verify
+    	
+    	clickByJavascript(winterCheckboxInput);
+    	sleepInSecond(2);
+    	
+    	Assert.assertTrue(driver.findElement(winterCheckboxInput).isSelected());
+    	
+    }
+    
+    @Test
+    public void TC_06_Custom_Checkbox() {
+    	driver.get("https://material.angular.io/components/checkbox/examples");
+    	By checkedCheckbox = By.xpath("//span[text()='Checked']//preceding-sibling::span//input");
+    	By indeterminateCheckbox = By.xpath("//span[text()='Indeterminate']//preceding-sibling::span//input");
+    	
+    	clickByJavascript(checkedCheckbox);
+    	sleepInSecond(2);
+    	clickByJavascript(indeterminateCheckbox);
+    	sleepInSecond(2);
+    	
+    	Assert.assertTrue(isElementSelected(checkedCheckbox));
+    	Assert.assertTrue(isElementSelected(indeterminateCheckbox));
+    	
+    	clickByJavascript(checkedCheckbox);
+    	sleepInSecond(2);
+    	clickByJavascript(indeterminateCheckbox);
+    	sleepInSecond(2);
+    	
+    	Assert.assertFalse(isElementSelected(checkedCheckbox));
+    	Assert.assertFalse(isElementSelected(indeterminateCheckbox));
+    	
+    }
+    
+    public void clickByJavascript(By by) {
+    	
+    	//arguments[0] chính là element đầu tiên đc tìm thấy bởi driver.findElement, ráp vào  arguments[0]
+    	jsExecutor.executeScript("arguments[0].click();", driver.findElement(by));
     }
     
     public void checkToCheckbox(By by) {
