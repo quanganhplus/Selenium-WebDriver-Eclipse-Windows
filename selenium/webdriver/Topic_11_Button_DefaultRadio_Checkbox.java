@@ -217,7 +217,7 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     	
     }
     
-    @Test
+    //@Test
     public void TC_06_Custom_Checkbox() {
     	driver.get("https://material.angular.io/components/checkbox/examples");
     	By checkedCheckbox = By.xpath("//span[text()='Checked']//preceding-sibling::span//input");
@@ -241,6 +241,40 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     	
     }
     
+    //@Test
+    public void TC_07_Custom_Radio() {
+    	driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
+ 
+    	By myfamilyRadio  = By.xpath("//div[text()='Đăng ký cho người thân']//preceding-sibling::div//div[@class='mat-radio-inner-circle']");
+    	By myselfRadio = By.xpath("//div[text()='Đăng ký bản thân']//preceding-sibling::div//div[@class='mat-radio-outer-circle']");
+    	
+    	clickByJavascript(myfamilyRadio);
+    	sleepInSecond(2);
+    	
+    	Assert.assertTrue(driver.findElement(By.xpath("//input[@formcontrolname='registerFullname']")).isDisplayed());
+    	Assert.assertTrue(driver.findElement(By.xpath("//input[@formcontrolname='registerPhoneNumber']")).isDisplayed());
+    	
+    	clickByJavascript(myselfRadio);
+    	sleepInSecond(2);
+    	
+    	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    	Assert.assertEquals(driver.findElements(By.xpath("//input[@formcontrolname='registerFullname']")).size(), 0);
+    	Assert.assertEquals(driver.findElements(By.xpath("//input[@formcontrolname='registerPhoneNumber']")).size(), 0);
+    	
+    }
+    
+    @Test
+    public void TC_08_Custom_Radio_Google() {
+    	driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+    	
+    	By haNoiCityRadio = By.xpath("//div[@aria-label='Hà Nội']");
+    	Assert.assertEquals(driver.findElement(haNoiCityRadio).getAttribute("aria-checked"), "false");
+    	
+    	driver.findElement(haNoiCityRadio).click();
+    	sleepInSecond(2);
+    	
+    	Assert.assertEquals(driver.findElement(haNoiCityRadio).getAttribute("aria-checked"), "true");
+    }
     public void clickByJavascript(By by) {
     	
     	//arguments[0] chính là element đầu tiên đc tìm thấy bởi driver.findElement, ráp vào  arguments[0]
