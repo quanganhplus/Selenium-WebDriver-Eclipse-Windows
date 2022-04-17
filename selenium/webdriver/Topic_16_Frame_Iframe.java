@@ -48,7 +48,7 @@ public class Topic_16_Frame_Iframe {
     	
     	//Verify số lượt like fb là 167K
     	//Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Kyna.vn']/parent::div/following-sibling::div")).getText(), "167K lượt thích");
-    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='lfloat']//div[text()='167K lượt thích']")).getText(), "167K lượt thích");
+    	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='lfloat']//div[text()='167K likes']")).getText(), "167K likes");
     	
     	driver.findElement(By.cssSelector("div.border_overlay")).click();
     	driver.findElement(By.cssSelector("input.input_name")).sendKeys("quang anh");
