@@ -1,13 +1,14 @@
 package webdriver;
 
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,9 +19,7 @@ public class Topic_15_Popup {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
-    Actions action;
     JavascriptExecutor jsExecutor;
-    WebDriverWait expliciwait;
     String projectPath = System.getProperty("user.dir");
     String osName = System.getProperty("os.name");
 
@@ -31,13 +30,9 @@ public class Topic_15_Popup {
 		
 		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 		driver = new ChromeDriver();
-    	
-		expliciwait = new WebDriverWait(driver, 10);
+    			
 		jsExecutor = (JavascriptExecutor) driver;
 		
-		
-		//khởi tạo action
-		action = new Actions(driver);
 		
         //Set thời gian chờ để tìm đc element (findElement)
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -127,17 +122,37 @@ public class Topic_15_Popup {
     @Test
     public void TC_04_Random_Popup_Not_In_Dom(){  	
     	//Step 1
-    	driver.get("https://www.kmplayer.com/home");
+    	driver.get("https://dehieu.vn/");
+    	sleepInSecond(5);
+    	
+    	System.out.println("Find popup - start : " + getCurrentDateTime());
+    	
+    	List<WebElement> popupContent = driver.findElements(By.cssSelector("div.popup-content"));  	
+    	
+    	System.out.println("Find popup - end : " + getCurrentDateTime());
     	
     	//Step 2 - luôn có element trong DOM dù có hiển thị hoặc ko
-    	if (driver.findElement(By.cssSelector("div#layer2")).isDisplayed()) {
+    	if (popupContent.size() > 0) {
     		System.out.println("Case 1 - Nếu như popup hiển thị thì có thể thao tác vs popup rồi close đi -> qua step tiếp theo ");
+    		
+    		//Thao tác với popup
+    		driver.findElement(By.cssSelector("input#popup-name")).sendKeys("quang anh");
+    		driver.findElement(By.cssSelector("input#popup-email")).sendKeys("quanganh@gmail.com");
+    		driver.findElement(By.cssSelector("input#popup-phone")).sendKeys("0977825562");
+    		sleepInSecond(3);
+    		
     		//Close popup trong này
-    		jsExecutor.executeScript("arguments[0].click();", driver.findElement(By.cssSelector("area#btn-r")));
+    		driver.findElement(By.cssSelector("button#close-popup")).click();
     		sleepInSecond(3);
     		
     		//Verify popup ko còn hiển thị nữa
-    		Assert.assertFalse(driver.findElement(By.cssSelector("div#layer2")).isDisplayed());
+    		System.out.println("Verify popup - start : " + getCurrentDateTime());
+    		
+    		popupContent = driver.findElements(By.cssSelector("div.popup-content"));
+    		Assert.assertEquals(popupContent.size(), 0);
+    		
+    		System.out.println("Verify popup - end : " + getCurrentDateTime());
+
     	} else {
     		System.out.println("Case 2 - Nếu như popup ko hiển thị thì qua step tiếp theo luôn");
     	}
@@ -158,5 +173,8 @@ public class Topic_15_Popup {
         }
     }
     
+    public String getCurrentDateTime() {
+    	return new Date().toString();
+    }
 }
 
