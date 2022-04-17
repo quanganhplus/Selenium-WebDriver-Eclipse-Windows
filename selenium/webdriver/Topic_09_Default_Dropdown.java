@@ -59,7 +59,7 @@ public class Topic_09_Default_Dropdown {
     
     //@Test
 	public void TC_01_Rode() {
-    	//web lỗi
+    	
     	driver.get("https://rode.com/en/support/where-to-buy");
     	
     	//Khởi tạo khi sử dụng (element xuất hiện)
