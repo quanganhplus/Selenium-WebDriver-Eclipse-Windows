@@ -1,9 +1,11 @@
 package webdriver;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -28,7 +30,7 @@ public class Topic_16_Frame_Iframe {
 		
 		
         //Set thời gian chờ để tìm đc element (findElement)
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         
         driver.manage().window().maximize();
         
@@ -50,13 +52,35 @@ public class Topic_16_Frame_Iframe {
     	//Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Kyna.vn']/parent::div/following-sibling::div")).getText(), "167K lượt thích");
     	Assert.assertEquals(driver.findElement(By.xpath("//div[@class='lfloat']//div[text()='167K likes']")).getText(), "167K likes");
     	
+    	//Switch ra khỏi iframe fb
+    	driver.switchTo().defaultContent();
+    	
+    	//Switch vào iframe Chat
+    	driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@id='cs_chat_iframe']")));
+    	
     	driver.findElement(By.cssSelector("div.border_overlay")).click();
+    	
     	driver.findElement(By.cssSelector("input.input_name")).sendKeys("quang anh");
-    	driver.findElement(By.cssSelector("input.input.input_phone")).sendKeys("0977825566");
+    	driver.findElement(By.cssSelector("input.input_phone")).sendKeys("0977825566");
     	driver.findElement(By.xpath("//select[@id='serviceSelect']//option[text()='TƯ VẤN TUYỂN SINH']")).click();
     	driver.findElement(By.xpath("//textarea[@name='message']")).sendKeys("Java BootCamp");
     	
+    	//Switch ra khỏi iframe Chat
+    	driver.switchTo().defaultContent();
     	
+    	//Nhập và search
+    	String keyword = "Excel";
+    	driver.findElement(By.cssSelector("input#live-search-bar")).sendKeys(keyword);
+    	driver.findElement(By.cssSelector("button.search-button")).click();
+    	
+    	//Verify course name chứa từ khóa vừa nhập
+    	List<WebElement> courseName = driver.findElements(By.cssSelector("div.content>h4"));
+    	for (WebElement course : courseName) {
+			System.out.println(course.getText());
+			Assert.assertTrue(course.getText().contains(keyword));
+		}
+    	
+    	sleepInSecond(3);
     }
     
     
