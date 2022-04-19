@@ -84,13 +84,13 @@ public class Topic_16_Frame_Iframe {
     }
     
     
-    //@Test
+    @Test
     public void TC_02_Blog() {  	
     	//A (automationfc.com)
     	driver.get("https://automationfc.com/2020/02/18/training-online-automation-testing/");
     	
     	//A -> B(Youtube)
-    	driver.switchTo().frame("video-2679-1_youtube_iframe");
+    	driver.switchTo().frame(driver.findElement(By.cssSelector("iframe.youtube-player")));
     	
     	//B
     	driver.findElement(By.cssSelector("button.ytp-large-play-button")).click();
@@ -106,7 +106,7 @@ public class Topic_16_Frame_Iframe {
     	Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Automation FC']//parent::div//following-sibling::div")).getText(), "3,305 likes");
     }
     
-  @Test
+    //@Test
     public void TC_03_HDFC() {  	
     	//A (HDFC)
     	driver.get("https://netbanking.hdfcbank.com/netbanking/");
