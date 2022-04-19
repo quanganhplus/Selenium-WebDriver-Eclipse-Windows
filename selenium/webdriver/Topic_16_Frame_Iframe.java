@@ -37,7 +37,7 @@ public class Topic_16_Frame_Iframe {
     	}
     
     
-    @Test
+    //@Test
     public void TC_01_Kyna() {  	
     	driver.get("https://kyna.vn/"); 
     	
@@ -85,29 +85,43 @@ public class Topic_16_Frame_Iframe {
     
     
     //@Test
-    public void TC_02_Random_Popup_In_Dom() {  	
+    public void TC_02_Blog() {  	
+    	//A (automationfc.com)
+    	driver.get("https://automationfc.com/2020/02/18/training-online-automation-testing/");
     	
-    	driver.get("https://vnk.edu.vn/");
+    	//A -> B(Youtube)
+    	driver.switchTo().frame("video-2679-1_youtube_iframe");
     	
-    }
-    
-    //@Test
-    public void TC_03_Random_Popup_In_Dom_KMPlayer(){  	
-    	
-    	driver.get("https://www.kmplayer.com/home");
-    	
-    	
-    }
-    
-    //@Test
-    public void TC_04_Random_Popup_Not_In_Dom(){  	
-    	
-    	driver.get("https://dehieu.vn/");
+    	//B
+    	driver.findElement(By.cssSelector("button.ytp-large-play-button")).click();
     	sleepInSecond(5);
     	
+    	//B -> A
+    	driver.switchTo().defaultContent();
     	
+    	//A -> C (iframe fb)
+    	driver.switchTo().frame(driver.findElement(By.cssSelector("div.fb-page>span>iframe")));
+    	
+    	//C
+    	Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Automation FC']//parent::div//following-sibling::div")).getText(), "3,305 likes");
     }
-   
+    
+  @Test
+    public void TC_03_HDFC() {  	
+    	//A (HDFC)
+    	driver.get("https://netbanking.hdfcbank.com/netbanking/");
+    	
+    	//A -> B(frame login)
+    	driver.switchTo().frame("login_page");
+    	
+    	driver.findElement(By.cssSelector("input.form-control")).sendKeys("quanganh");
+    	driver.findElement(By.cssSelector("a.login-btn")).click();
+    	sleepInSecond(3);
+    	
+    	Assert.assertTrue(driver.findElement(By.cssSelector("input#fldPasswordDispId")).isDisplayed());
+    	 
+    }
+    
     
     @AfterClass
     public void afterClass() {
