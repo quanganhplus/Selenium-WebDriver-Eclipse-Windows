@@ -103,7 +103,7 @@ public class Topic_16_Frame_Iframe {
     	driver.switchTo().frame(driver.findElement(By.cssSelector("div.fb-page>span>iframe")));
     	
     	//C
-    	Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Automation FC']//parent::div//following-sibling::div")).getText(), "3,305 likes");
+    	Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Automation FC']//parent::div//following-sibling::div")).getText(), "3,306 likes");
     }
     
     //@Test
