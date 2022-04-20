@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -35,7 +36,7 @@ public class Topic_17_Window_Tab {
     	}
     
     
-    //@Test
+    @Test
     public void TC_01_Naukri_Tab_ID() {  	
     	//trang A
     	driver.get("https://www.naukri.com/"); 
@@ -55,17 +56,43 @@ public class Topic_17_Window_Tab {
     	String jobWindowID = driver.getWindowHandle();
     	switchToWindowByID(jobWindowID);
     	
+    	Assert.assertTrue(closeAllWindowsWithoutParent(homePageWindowID));
+    	
     	//Sau khi Switch qua
     	System.out.println("Tab A: " + driver.getCurrentUrl());
     	sleepInSecond(10);
     }
     
     
-    @Test
+    //@Test
     public void TC_02_Cambride_Dictionary_Title() {  	
-    	//trang A
+    	//Home
     	driver.get("https://dictionary.cambridge.org/vi/"); 
     	
+    	driver.findElement(By.xpath("//header[@id='header']//span[text()='Đăng nhập']")).click();
+    	sleepInSecond(3);
+    	
+    	//Switch qua trang Login
+    	switchToWindowByTitle("Login");
+    	
+    	driver.findElement(By.xpath("//input[@value='Log in']")).click();
+    	
+    	Assert.assertEquals(driver.findElement(By.xpath("//form[@id='gigya-login-form']//input[@name='username']//following-sibling::span")).getText(), "This field is required");
+    	Assert.assertEquals(driver.findElement(By.xpath("//form[@id='gigya-login-form']//input[@name='password']//following-sibling::span")).getText(), "This field is required");
+    	
+    	driver.findElement(By.xpath("//form[@id='gigya-login-form']//input[@name='username']")).sendKeys("automationfc.com@gmail.com");
+    	driver.findElement(By.xpath("//form[@id='gigya-login-form']//input[@name='password']")).sendKeys("Automation000***");    	
+    	driver.findElement(By.xpath("//input[@value='Log in']")).click();
+    	
+    	//Business nó tự close đi và nhảy về trang trc đó
+    	//driver nó vẫn ở trang login
+    	
+    	//Switch về Home
+    	switchToWindowByTitle("Cambridge Dictionary | Từ điển tiếng Anh, Bản dịch & Từ điển từ đồng nghĩa");
+    	sleepInSecond(3);
+    	
+    	//Verify login thành công
+    	Assert.assertEquals(driver.findElement(By.xpath("//header[@id='header']//span[text()='Automation FC']")).getText(), "Automation FC");
     	
     }
     
@@ -105,6 +132,20 @@ public class Topic_17_Window_Tab {
     	}
     }
     
+    public boolean closeAllWindowsWithoutParent(String parentID) {
+    	  Set < String > allWindows = driver.getWindowHandles();
+    	  for (String runWindows: allWindows) {
+    	    if (!runWindows.equals(parentID)) {
+    	      driver.switchTo().window(runWindows);
+    	      driver.close();
+    	    }
+    	  }
+    	  driver.switchTo().window(parentID);
+    	  if (driver.getWindowHandles().size() == 1)
+    	    return true;
+    	  else
+    	    return false;
+    }
     
     @AfterClass
     public void afterClass() {
