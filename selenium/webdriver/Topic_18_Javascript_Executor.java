@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,14 +21,30 @@ public class Topic_18_Javascript_Executor {
     JavascriptExecutor jsExecutor;
     String projectPath = System.getProperty("user.dir");
     String emailAddress;
+    
+    String loginPageUrl, userID, userPassword, customerID;
+	String customerName, gender, dateOfBirth, addressInput, addressOutput, city, state, pinNumber, phoneNumber, email, password;
 
     @BeforeClass
     public void beforeClass() {
-//		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
-//		driver = new FirefoxDriver();
+		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+		driver = new FirefoxDriver();
 		
-		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
-		driver = new ChromeDriver();
+//		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+//		driver = new ChromeDriver();
+		
+		loginPageUrl = "https://demo.guru99.com/v4/";
+		customerName = "Brian Tracy";
+		gender = "male";
+		dateOfBirth = "1950-01-31";
+		addressInput = "123 Los Angeles\nUnited States";
+		addressOutput = "123 Los Angeles United States";
+		city = "New York";
+		state = "California";
+		pinNumber = "632565";
+		phoneNumber = "0987569584";
+		email = "briantracy" + getRandomNumber() + "@mail.net";
+		password = "123456";
 		
 		//Ép kiểu
 		jsExecutor = (JavascriptExecutor) driver;
@@ -43,7 +59,7 @@ public class Topic_18_Javascript_Executor {
     	}
     
     
-    @Test
+    //@Test
     public void TC_01_live_guru() {  		
     	
     	navigateToUrlByJS("http://live.techpanda.org");
@@ -90,13 +106,101 @@ public class Topic_18_Javascript_Executor {
     
     
     //@Test
-    public void TC_02_HTML_Validate_Message() {  	
+    public void TC_02_HTML5_Validate_Message() {  	
     	driver.get("https://www.pexels.com/vi-vn/join-contributor/");
     	
+    	By firstName = By.id("user_first_name");
+    	By userMail = By.id("user_email"); 
+    	By userPassword = By.id("user_password"); 
+    	By createButton = By.xpath("//button[contains(text(),'Tạo tài khoản mới')]");
+    	
+    	driver.findElement(createButton).click();
+    	sleepInSecond(3); 	
+    	Assert.assertEquals(getElementValidationMessage(firstName), "Please fill out this field.");
+    	
+    	driver.findElement(firstName).sendKeys("quang anh");
+    	driver.findElement(createButton).click();
+    	sleepInSecond(3);
+    	Assert.assertEquals(getElementValidationMessage(userMail), "Please fill out this field.");
+    	
+    	driver.findElement(userMail).sendKeys("123@234@@");
+    	driver.findElement(createButton).click();
+    	sleepInSecond(3);
+    	Assert.assertEquals(getElementValidationMessage(userMail), "Please enter an email address.");
+    	driver.findElement(userMail).clear();
+    	
+    	driver.findElement(userMail).sendKeys(emailAddress);
+    	driver.findElement(createButton).click();
+    	sleepInSecond(3);
+    	Assert.assertEquals(getElementValidationMessage(userPassword), "Please fill out this field.");    	
     	
     }
     
     
+    //@Test
+    public void TC_03_HTML5_Remove_Attribute() {  
+    	driver.get(loginPageUrl);
+    	
+    	driver.findElement(By.xpath("//a[text()='here']")).click();
+
+		driver.findElement(By.name("emailid")).sendKeys(email);
+		driver.findElement(By.name("btnLogin")).click();
+
+		userID = driver.findElement(By.xpath("//td[text()='User ID :']/following-sibling::td")).getText();
+		userPassword = driver.findElement(By.xpath("//td[text()='Password :']/following-sibling::td")).getText();
+    	
+		driver.get(loginPageUrl);
+
+		driver.findElement(By.name("uid")).sendKeys(userID);
+		driver.findElement(By.name("password")).sendKeys(userPassword);
+
+		driver.findElement(By.name("btnLogin")).click();
+
+		Assert.assertEquals(driver.findElement(By.cssSelector("marquee.heading3")).getText(), "Welcome To Manager's Page of Guru99 Bank");
+		Assert.assertEquals(driver.findElement(By.cssSelector("tr.heading3>td")).getText(), "Manger Id : " + userID);
+		
+		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
+		driver.findElement(By.name("name")).sendKeys(customerName);
+		
+		//Remove type attribute
+		removeAttributeInDOM("//input[@id='dob']", "type");
+		sleepInSecond(3);	
+		driver.findElement(By.name("dob")).sendKeys(dateOfBirth);
+		
+		driver.findElement(By.name("addr")).sendKeys(addressInput);
+		driver.findElement(By.name("city")).sendKeys(city);
+		driver.findElement(By.name("state")).sendKeys(state);
+		driver.findElement(By.name("pinno")).sendKeys(pinNumber);
+		driver.findElement(By.name("telephoneno")).sendKeys(phoneNumber);
+		driver.findElement(By.name("emailid")).sendKeys(email);
+		driver.findElement(By.name("password")).sendKeys(password);
+		driver.findElement(By.name("sub")).click();
+
+		Assert.assertEquals(driver.findElement(By.cssSelector("p.heading3")).getText(), "Customer Registered Successfully!!!");
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Customer Name']/following-sibling::td")).getText(), customerName);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Gender']/following-sibling::td")).getText(), gender);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Birthdate']/following-sibling::td")).getText(), dateOfBirth);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td")).getText(), addressOutput);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='City']/following-sibling::td")).getText(), city);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='State']/following-sibling::td")).getText(), state);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Pin']/following-sibling::td")).getText(), pinNumber);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Mobile No.']/following-sibling::td")).getText(), phoneNumber);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Email']/following-sibling::td")).getText(), email);
+    }
+    
+    @Test
+    public void TC_04_HTML5_Image() {  
+    	driver.get("https://automationfc.github.io/basic-form");
+    	
+    	//Đúng
+    	Assert.assertTrue(isImageLoaded("//img[@alt='User Avatar 05']"));
+    	Assert.assertFalse(isImageLoaded("//img[@alt='broken_04']"));
+    	
+    	//Sai
+    	//Assert.assertFalse(isImageLoaded("//img[@alt='User Avatar 05']"));
+    	//Assert.assertTrue(isImageLoaded("//img[@alt='broken_04']"));
+    	
+    }
     
     @AfterClass
     public void afterClass() {
@@ -166,8 +270,8 @@ public class Topic_18_Javascript_Executor {
 		jsExecutor.executeScript("arguments[0].removeAttribute('" + attributeRemove + "');", getElement(locator));
 	}
 
-	public String getElementValidationMessage(String locator) {
-		return (String) jsExecutor.executeScript("return arguments[0].validationMessage;", getElement(locator));
+	public String getElementValidationMessage(By bylocator) {
+		return (String) jsExecutor.executeScript("return arguments[0].validationMessage;", driver.findElement(bylocator));
 	}
 
 	public boolean isImageLoaded(String locator) {
