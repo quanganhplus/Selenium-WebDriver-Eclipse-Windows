@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -38,19 +38,24 @@ public class Topic_20_Upload_AutoIT_Robot {
     //AutoIT script locator
     String singleFirefox = autoITFolderLocation + "firefox.exe";
     String singleChrome = autoITFolderLocation + "chrome.exe";
+    String multipleFirefox = autoITFolderLocation + "firefoxUploadMultiple.exe";
+    String multipleChrome = autoITFolderLocation + "chromeUploadMultiple.exe";
     
     @BeforeClass
     public void beforeClass() {
 		//Both : Windows + MAC
     	if (osName.toUpperCase().startsWith("MAC")) {
     		System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver_mac");
-    		System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_mac");    		
+    		System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_mac");
+    		System.setProperty("webdriver.edge.driver", projectPath + "/browserDrivers/msedgedriver_mac");
+   		
     	} else {
     		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
     		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe"); 		
+    		System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\\\msedgedriver.exe"); 		
     	}
     	
-    	driver = new FirefoxDriver();
+    	driver = new EdgeDriver();
 		
 //		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 //		driver = new ChromeDriver();	
@@ -62,7 +67,7 @@ public class Topic_20_Upload_AutoIT_Robot {
     	}
     
     
-    @Test
+    //@Test
     public void TC_01_One_File_Per_Time() throws IOException {  	
     	driver.get("https://blueimp.github.io/jQuery-File-Upload/"); 	
     	
@@ -101,14 +106,21 @@ public class Topic_20_Upload_AutoIT_Robot {
     	
     }
     
-    //@Test
-    public void TC_02_Multiple_File_Per_Time() {  	
+    @Test
+    public void TC_02_Multiple_File_Per_Time() throws IOException {  	
     	driver.get("https://blueimp.github.io/jQuery-File-Upload/"); 	
     	
-    	By uploadFileBy = By.cssSelector("input[type='file']");
+    	//Click để bật lên Open File Dialog
+    	driver.findElement(By.cssSelector("span.fileinput-button")).click();
     	
     	//Load file
-    	
+    	if (driver.toString().contains("Chrome") || driver.toString().contains("Edge")) {
+    		Runtime.getRuntime().exec(new String[] { multipleChrome, seleniumImageLocation, appiumImageLocation, apiImageLocation  });
+		} else {
+			Runtime.getRuntime().exec(new String[] { multipleFirefox, seleniumImageLocation, appiumImageLocation, apiImageLocation  });
+		}
+		
+    	sleepInSecond(2);
     	
     	
     	//Uploading
