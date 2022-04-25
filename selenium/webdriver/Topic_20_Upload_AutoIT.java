@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_20_Upload_AutoIT_Robot {
+public class Topic_20_Upload_AutoIT {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
