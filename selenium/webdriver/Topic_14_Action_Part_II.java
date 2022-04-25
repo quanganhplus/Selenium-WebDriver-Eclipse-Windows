@@ -157,7 +157,8 @@ public class Topic_14_Action_Part_II {
     	Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-b']//header[text()='B']")).isDisplayed());
     }
    
-    public void dragAndDropHTML5ByXpath(String sourceLocator, String targetLocator) throws AWTException {
+    @SuppressWarnings("deprecation")
+	public void dragAndDropHTML5ByXpath(String sourceLocator, String targetLocator) throws AWTException {
 
 		WebElement source = driver.findElement(By.xpath(sourceLocator));
 		WebElement target = driver.findElement(By.xpath(targetLocator));
