@@ -19,7 +19,6 @@ public class Topic_22_Wait_PI_Element_Status {
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
     String projectPath = System.getProperty("user.dir");
-    String osName = System.getProperty("os.name");
     
     WebDriverWait explicitwait;
     
@@ -92,6 +91,7 @@ public class Topic_22_Wait_PI_Element_Status {
     
     
     @Test
+    //TC_04 Staleness : xuất hiện element trong DOM, rồi biến mất
     public void TC_04_Staleness(){ 	
     	//Bật Registration form lên
     	driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();  
