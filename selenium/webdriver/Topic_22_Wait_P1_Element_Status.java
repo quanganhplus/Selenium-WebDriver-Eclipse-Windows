@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,7 +36,6 @@ public class Topic_22_Wait_P1_Element_Status {
     	
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);        
         
-        driver.manage().window().maximize();
         
         driver.get("https://www.facebook.com/");
         
@@ -49,7 +49,7 @@ public class Topic_22_Wait_P1_Element_Status {
     }
     
     
-    @Test
+    //@Test
     public void TC_02_Invisible_In_DOM(){  	
     	
     	driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();
@@ -80,10 +80,33 @@ public class Topic_22_Wait_P1_Element_Status {
     
     
     //@Test
+    public void TC_03_Presence(){  	
+    	// Presence: Có trong DOM / HTML và có trên UI -> Pass
+    	explicitwait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='email']")));	
+    	
+    	driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();  
+    	sleepInSecond(3);
+    	
+    	// Presence: Có trong DOM / HTML và ko có trên UI -> Pass
+    	explicitwait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='reg_email_confirmation__']")));
+    }
+    
+    
+    @Test
     public void TC_04_Staleness(){  	
+    	//Bật Registration form lên
+    	driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();  
+    	sleepInSecond(3);
     	
+    	//Tại thời điểm này element đang có trong DOM
+    	WebElement confirmationEmailAddressTextbox= driver.findElement(By.xpath("//input[@name='reg_email_confirmation__']"));
     	
+    	//đóng Registration form  lại
+    	driver.findElement(By.xpath("//div[text()='Đăng ký']//parent::div//preceding-sibling::img")).click();
     	
+    	//Wait cho Confirmation Email Address ko còn trong DOM nữa
+    	//Vì 1 lí do nào đó mình cần wait cho nó ko tồn tại trong DOM nữa
+    	explicitwait.until(ExpectedConditions.stalenessOf(confirmationEmailAddressTextbox));
     }
     
     
