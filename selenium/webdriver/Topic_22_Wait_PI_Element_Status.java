@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_22_Wait_P1_Element_Status {
+public class Topic_22_Wait_PI_Element_Status {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
@@ -35,8 +35,7 @@ public class Topic_22_Wait_P1_Element_Status {
     	explicitwait = new WebDriverWait(driver, 15);
     	
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);        
-        
-        
+              
         driver.get("https://www.facebook.com/");
         
     	}
@@ -93,7 +92,7 @@ public class Topic_22_Wait_P1_Element_Status {
     
     
     @Test
-    public void TC_04_Staleness(){  	
+    public void TC_04_Staleness(){ 	
     	//Bật Registration form lên
     	driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();  
     	sleepInSecond(3);
@@ -109,11 +108,7 @@ public class Topic_22_Wait_P1_Element_Status {
     	explicitwait.until(ExpectedConditions.stalenessOf(confirmationEmailAddressTextbox));
     }
     
-    
-    
-
-    
-    
+   
     @AfterClass
     public void afterClass() {
         driver.quit();
