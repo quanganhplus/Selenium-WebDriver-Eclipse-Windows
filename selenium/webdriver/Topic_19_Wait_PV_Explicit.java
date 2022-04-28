@@ -32,7 +32,7 @@ public class Topic_19_Wait_PV_Explicit {
     	
     	System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
     	driver = new FirefoxDriver();     
-        
+    	
     	}
        
     
@@ -85,22 +85,30 @@ public class Topic_19_Wait_PV_Explicit {
     	driver.get("https://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx");
     	
     	//Wait cho Date Picker xuất hiện
-    	explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("ctl00_ContentPlaceholder1_Panel1")));
+    	explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ctl00_ContentPlaceholder1_Panel1")));
     	
-    	WebElement selectedDateText = driver.findElement(By.id("ctl00_ContentPlaceholder1_Panel1"));
-    	Assert.assertEquals(selectedDateText.getText(), "No Selected Dates to display");
+    	//Element này đc tìm tại thời điểm mà chưa click lên ngày 11
+    	WebElement selectedDateText = driver.findElement(By.cssSelector("span#ctl00_ContentPlaceholder1_Label1"));
+    	Assert.assertEquals(selectedDateText.getText(), "No Selected Dates to display.");
     	
     	//Wait cho ngày 11 có thể Click vào và sau đó click lên nó
     	explicitWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='11']"))).click();
     	
     	//Wait cho Loading icon biến mất
+    	explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[id*='RadCalendar1']>div.raDiv")));
     	
+    	//Sau khi click vào ngày 11 thì element có text nó đc cập nhập lại
+    	//Nếu dùng lại element ở trên rồi getText là sai
+    	selectedDateText = driver.findElement(By.cssSelector("span#ctl00_ContentPlaceholder1_Label1"));
     	
     	//Verify ngày được update
+    	Assert.assertEquals(selectedDateText.getText(), "Monday, April 11, 2022");
     	
+    	//Wait cho ngày được chọn selected thành công (visible)
+    	WebElement todaySelected = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[@class='rcSelected']//a[text()='11']")));
     	
     	//Verify ngày được chọn
-    	
+    	Assert.assertTrue(todaySelected.isDisplayed());
     }
     
     
