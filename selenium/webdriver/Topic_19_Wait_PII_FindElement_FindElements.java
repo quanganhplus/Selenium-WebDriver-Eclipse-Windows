@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_23_Wait_PII_FindElement_FindElements {
+public class Topic_19_Wait_PII_FindElement_FindElements {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;

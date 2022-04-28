@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_24_Wait_PIII_Implicit {
+public class Topic_19_Wait_PIII_Implicit {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
@@ -27,7 +27,7 @@ public class Topic_24_Wait_PIII_Implicit {
     	driver = new FirefoxDriver();     
     	
     	//chỉ cẩn set Implicit 1 lần là đủ , nó sẽ tự áp dụng time wait cho các testcase tiếp theo
-    	//Implicit nó chỉ liên quan đến findElement / findElements chứ ko liên quan đến URL lên đặt trc hay sau cũng đc
+    	//Implicit nó chỉ liên quan đến findElement / findElements chứ ko liên quan đến hàm get URL lên đặt trc hay sau cũng đc
     	//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         
     	//driver.get("https://automationfc.github.io/dynamic-loading/");

@@ -28,7 +28,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_14_Action_Part_II {
+public class Topic_13_Action_Part_II {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;

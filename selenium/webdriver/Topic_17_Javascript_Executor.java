@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_18_Javascript_Executor {
+public class Topic_17_Javascript_Executor {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;

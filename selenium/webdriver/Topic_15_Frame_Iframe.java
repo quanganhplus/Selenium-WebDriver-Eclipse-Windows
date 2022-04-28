@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_16_Frame_Iframe {
+public class Topic_15_Frame_Iframe {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;

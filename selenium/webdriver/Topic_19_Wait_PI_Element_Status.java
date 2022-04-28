@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_22_Wait_PI_Element_Status {
+public class Topic_19_Wait_PI_Element_Status {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;

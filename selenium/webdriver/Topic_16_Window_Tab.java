@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_17_Window_Tab {
+public class Topic_16_Window_Tab {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
