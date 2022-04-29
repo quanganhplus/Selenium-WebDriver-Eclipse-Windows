@@ -1,5 +1,8 @@
 package webdriver;
 
+import java.io.File;
+import java.util.Set;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,20 +20,39 @@ public class Topic_19_Wait_PV_Explicit {
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
     
+    String projectPath = System.getProperty("user.dir");
+    String osName = System.getProperty("os.name");
+    String separatorChar = File.separator;
+    String uploadFolderLocation = projectPath + separatorChar + "uploadFiles" + separatorChar;
+    
+    //Image Name: Verify
+    String seleniumImage = "01.jpg";
+    String appiumImage = "02.jpg";
+    String apiImage = "03.jpg";
+    
+  //Image location: senkey
+    String seleniumImageLocation = uploadFolderLocation + seleniumImage;
+    String appiumImageLocation = uploadFolderLocation + appiumImage;
+    String apiImageLocation = uploadFolderLocation + apiImage;
+    
     //Wait rõ ràng: vs các điều kiện / status cụ thể
     WebDriverWait explicitWait;
-    
-    String projectPath = System.getProperty("user.dir");
+
     By loadingIcon = By.cssSelector("div#loading");
     By helloworldText = By.cssSelector("div#finish>h4");
     
     @BeforeClass
     public void beforeClass() {
-//		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
-//		driver = new ChromeDriver();	
+//		//Both : Windows + MAC
+    	if (osName.toUpperCase().startsWith("MAC")) {
+    		System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver_mac");
+    		System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_mac");    		
+    	} else {
+    		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+    		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe"); 		
+    	}
     	
-    	System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
-    	driver = new FirefoxDriver();     
+    	driver = new FirefoxDriver();    
     	
     	}
        
@@ -77,7 +99,7 @@ public class Topic_19_Wait_PV_Explicit {
     	Assert.assertEquals(driver.findElement(helloworldText).getText(), "Hello World!");
     }
     
-    @Test
+    //@Test
     public void TC_04_Ajax_Loading() { 
     	explicitWait = new WebDriverWait(driver, 30);
     	
@@ -110,10 +132,59 @@ public class Topic_19_Wait_PV_Explicit {
     	Assert.assertTrue(todaySelected.isDisplayed());
     }
     
-    
+
+    @Test
+    public void TC_05_Upload_Files() { 
+    	explicitWait = new WebDriverWait(driver, 60);
+    	
+    	driver.get("https://gofile.io/uploadFiles");
+    	explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.col-sm-auto>button.uploadButton")));
+    	
+    	String homePageWindowID = driver.getWindowHandle();
+    	System.out.println("Tab A: " + driver.getCurrentUrl());
+    	
+    	
+    	By uploadFileBy = By.cssSelector("input[type='file']");
+    	
+    	//Load file + Uploading
+    	driver.findElement(uploadFileBy).sendKeys(seleniumImageLocation + "\n" + appiumImageLocation + "\n" + apiImageLocation);
+    	
+    	//Wait cho file đc upload thành công trong vòng 60s
+    	explicitWait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.progress"))));
+    	
+    	//Wait cho text đc visible
+    	WebElement upaloadedText = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h5[text()='Your files have been successfully uploaded']")));
+    	Assert.assertTrue(upaloadedText.isDisplayed());
+    	
+    	//Click vao Download link
+    	driver.findElement(By.xpath("//a[@id='rowUploadSuccess-downloadPage']")).click();
+    	
+    	switchToWindowByID(homePageWindowID);  	
+    	WebElement buttonDownload = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='01.jpg']//parent::a//parent::div//following-sibling::div//span[text()='Download']")));
+    	Assert.assertTrue(buttonDownload.isDisplayed());
+    	
+    	//Sau khi Switch qua
+    	System.out.println("Tab B: " + driver.getCurrentUrl());   	
+    }
     
     @AfterClass
     public void afterClass() {
         driver.quit();
+    }
+    
+    //Có thể viết thành 1 hàm khi nào muốn dùng thì gọi hàm đó ra
+    //Chỉ dùng duy nhất 2 tab/ window
+    public void switchToWindowByID(String currentWindowID) {
+    	// Lấy hết tất cả các ID đang có ra
+    	Set<String> allWindowsIDs = driver.getWindowHandles();
+    	
+    	//Dùng 1 biến tạm để duyệt qua các phần tử trong Set<String>
+    	for (String id : allWindowsIDs) {
+			//Nếu như cái id nào mà khác vs id của page hiện tại
+    		if (!id.equals(currentWindowID)) {
+    			//Switch qua id của tab đó
+    			driver.switchTo().window(id);
+    		}
+		}
     }
 }
