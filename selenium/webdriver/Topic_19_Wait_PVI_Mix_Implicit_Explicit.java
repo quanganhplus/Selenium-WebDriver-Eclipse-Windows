@@ -53,7 +53,7 @@ public class Topic_19_Wait_PVI_Mix_Implicit_Explicit {
     @Test
     public void TC_02_Element_Not_Found_Only_Implicit() {   	
     	driver.get("https://www.facebook.com/");
-    	By emailIDBy = By.id("#vietnam");
+    	By emailIDBy = By.id("vietnam");
     	
     	driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     	System.out.println("Start implicit = " + getCurrentTime());

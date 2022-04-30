@@ -159,9 +159,17 @@ public class Topic_19_Wait_PV_Explicit {
     	//Click vao Download link
     	driver.findElement(By.xpath("//a[@id='rowUploadSuccess-downloadPage']")).click();
     	
+    	//Switch qua new Tab của Download link
     	switchToWindowByID(homePageWindowID);  	
-    	WebElement buttonDownload = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='01.jpg']//parent::a//parent::div//following-sibling::div//span[text()='Download']")));
-    	Assert.assertTrue(buttonDownload.isDisplayed());
+    	
+    	WebElement buttonDownload_1 = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='01.jpg']//parent::a//parent::div//following-sibling::div//span[text()='Download']")));
+    	Assert.assertTrue(buttonDownload_1.isDisplayed());
+    	
+    	WebElement buttonDownload_2 = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='02.jpg']//parent::a//parent::div//following-sibling::div//span[text()='Download']")));
+    	Assert.assertTrue(buttonDownload_2.isDisplayed());
+    	
+    	WebElement buttonDownload_3 = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='03.jpg']//parent::a//parent::div//following-sibling::div//span[text()='Download']")));
+    	Assert.assertTrue(buttonDownload_3.isDisplayed());
     	
     	//Sau khi Switch qua
     	System.out.println("Tab B: " + driver.getCurrentUrl());   	
