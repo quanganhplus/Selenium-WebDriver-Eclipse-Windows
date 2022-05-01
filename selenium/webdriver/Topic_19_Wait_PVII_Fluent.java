@@ -79,7 +79,7 @@ public class Topic_19_Wait_PVII_Fluent {
     	
     	Assert.assertEquals(loginButtonText, "");
     	
-    	//Apply điều kiện và trả về boolean
+    	//Apply điều kiện và trả về Boolean - class Wrap (viết hoa chữ cái đầu tiên)
     	boolean loginButtonStatus = fluentElement.until(new Function<WebElement, Boolean>(){
 			public Boolean apply(WebElement element) {
 				return element.isDisplayed();
