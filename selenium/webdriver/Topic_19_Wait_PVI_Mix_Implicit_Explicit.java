@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,7 +51,7 @@ public class Topic_19_Wait_PVI_Mix_Implicit_Explicit {
     	
     }
     
-    @Test
+    //@Test
     public void TC_02_Element_Not_Found_Only_Implicit() {   	
     	driver.get("https://www.facebook.com/");
     	By emailIDBy = By.id("vietnam");
@@ -58,16 +59,79 @@ public class Topic_19_Wait_PVI_Mix_Implicit_Explicit {
     	driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     	System.out.println("Start implicit = " + getCurrentTime());
     	try {
+    		driver.findElement(emailIDBy).isDisplayed();
+    	} catch (Exception e) {
+    		//e.printStackTrace();
+    	}
+    	System.out.println("End implicit = " + getCurrentTime());
+    	
+    }
+    
+    //@Test
+    public void TC_03_Element_Not_Found_Only_Explicit_By() {   	
+    	driver.get("https://www.facebook.com/");
+    	By emailIDBy = By.id("vietnam");
+    	
+    	//Implicit = 0
+    	explicitWait = new WebDriverWait(driver, 15);
+    	
+    	System.out.println("Start explicit = " + getCurrentTime());
+    	try {
+			explicitWait.until(ExpectedConditions.visibilityOfElementLocated(emailIDBy));
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+    	System.out.println("End explicit = " + getCurrentTime());
+    	  	
+    }
+    
+    //@Test
+    public void TC_04_Element_Not_Found_Implicit_Explicit() {   	
+    	driver.get("https://www.facebook.com/");
+    	By emailIDBy = By.id("vietnam");
+    	
+    	//1 - Implicit < Explicit
+    	//2 - Implicit = Explicit
+    	//3 - Implicit > Explicit
+    	
+    	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    	System.out.println("Start implicit = " + getCurrentTime());
+    	try {
 			driver.findElement(emailIDBy).isDisplayed();
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
     	System.out.println("End implicit = " + getCurrentTime());
     	
     	
+    	explicitWait = new WebDriverWait(driver, 2);
+    	System.out.println("Start explicit = " + getCurrentTime());
+    	try {
+			explicitWait.until(ExpectedConditions.visibilityOfElementLocated(emailIDBy));
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+    	System.out.println("End explicit = " + getCurrentTime());
     	
     }
     
+    @Test
+    public void TC_05_Element_Not_Found_Only_Explicit_WebElement() {   	
+    	driver.get("https://www.facebook.com/");
+    	WebElement emailID = driver.findElement(By.id("vietnam"));
+    	
+    	//Implicit = 0
+    	explicitWait = new WebDriverWait(driver, 15);
+    	
+    	System.out.println("Start explicit = " + getCurrentTime());
+    	try {
+			explicitWait.until(ExpectedConditions.visibilityOf(emailID));
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+    	System.out.println("End explicit = " + getCurrentTime());
+    	  	
+    }
     
     @AfterClass
     public void afterClass() {
