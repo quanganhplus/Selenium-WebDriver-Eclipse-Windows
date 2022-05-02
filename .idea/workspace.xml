@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b69593e-5d8c-41fa-b656-d6327da4b2c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/libraries.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libraries/libraries.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selenium/webdriver/Topic_22_Wait_PI_Element_Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/selenium/webdriver/Topic_22_Wait_PI_Element_Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selenium/webdriver/Topic_23_Wait_PII_FindElement_FindElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/selenium/webdriver/Topic_23_Wait_PII_FindElement_FindElements.java" afterDir="false" />
-    </list>
+    <list default="true" id="9b69593e-5d8c-41fa-b656-d6327da4b2c2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
