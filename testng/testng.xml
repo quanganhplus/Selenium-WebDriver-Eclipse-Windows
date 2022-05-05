@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="Facebook">
+	 <groups>
+		<run>
+			<include name = "admin"/>
+		</run>
+	</groups> 
+	
+  <test name="Run on CHROME browser">
+    <!--<classes>
+      <class name="tech.Topic_01_Annotation"/>
+    </classes> -->
+    
+    	<packages>
+    			<package name="admin"/>
+    	</packages>
+    
+  </test>
+</suite>
