@@ -10,7 +10,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -83,14 +82,7 @@ public class Topic_06_Multiple_Sever {
     	return serverName;
     }
     
-    @DataProvider(name = "user_pass")
-    public Object[][] UserAndPasswordData() {
-            return new Object[][] { 
-                    { "selenium_11_01@gmail.com", "111111" }, 
-                    { "selenium_11_02@gmail.com", "111111" }, 
-                    { "selenium_11_03@gmail.com", "111111" } };
-    }
-
+    
     @AfterClass
     public void afterClass() {
             driver.quit();

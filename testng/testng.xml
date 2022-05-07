@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite parallel="false" name="Facebook">
 
-	<parameter name="server" value="LIVE"/>
+<!-- 	<parameter name="server" value="LIVE"/> -->
+
+		<listeners>
+			<listener class-name="listener.ReportListener"/>
+		</listeners>
+
 
   <test name="Run on CHROME browser">
   	<parameter name="browser" value="chrome"/>
+  	
     <classes>
-      <class name="tech.Topic_06_Multiple_Sever"/>
+      <class name="listener.Register"/>
     </classes>  
+    
   </test>
-  
-  <test name="Run on FIREFOX browser">
-  	<parameter name="browser" value="firefox"/>
-    <classes>
-      <class name="tech.Topic_06_Multiple_Sever"/>
-    </classes>  
-  </test>
-  
-  <test name="Run on EDGE browser">
-  	<parameter name="browser" value="edge"/>
-    <classes>
-      <class name="tech.Topic_06_Multiple_Sever"/>
-    </classes>  
-  </test>
-  
   
 </suite>

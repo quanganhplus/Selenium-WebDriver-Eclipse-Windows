@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite  name="Run All Suites">
+
+	<suite-files>
+       <suite-file path="parallel.xml" />
+       <suite-file path="testng.xml" />
+  	</suite-files>
+  	 
+</suite>
