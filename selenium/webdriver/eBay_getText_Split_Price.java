@@ -1,6 +1,5 @@
 package webdriver;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -33,31 +32,22 @@ public class eBay_getText_Split_Price {
     }
        
     @Test
-    public void TC_01() throws InterruptedException {   	
+    public void TC_01(){   	
     	
-    	String a = driver.findElement(By.xpath("//div[@class='s-item__details clearfix']//span[@class='s-item__price']//span[contains(text(),to)]/parent::span")).getText();
-    	
-    	ArrayList <String> arrayListString = new ArrayList<>();
-    	for (String s: a.split(" ")) {
-    		arrayListString.add(s);
+    	 String s1 = driver.findElement(By.xpath("//div[@class='s-item__details clearfix']//span[@class='s-item__price']//span[contains(text(),to)]/parent::span")).getText();
+    	 
+    	 //tach chuoi dua vao tu "to"
+    	 String[] words = s1.split("to");
+    	 
+    	 //su dung vong lap foreach de in cac element cua mang chuoi thu duoc
+    	 for (String w : words) {
+    	 System.out.println(w);
     	}
-    	System.out.println("Full gía trị form ... to: " + a);
-    	System.out.println("Dấu khoảng trắng vị trí đầu tiên : " + arrayListString.get(0));
-    	
-    	sleepInSecond(5);
     }
     
-    
+   
     @AfterClass
     public void afterClass() {
         driver.quit();
-    }
-    
-    public void sleepInSecond(long second){
-        try{
-            Thread.sleep(second * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
