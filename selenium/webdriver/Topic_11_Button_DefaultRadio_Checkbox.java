@@ -155,7 +155,7 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     	
 	}
     
-    //@Test
+    @Test
     public void TC_04_Multiple_Checkbox() {
     	
     	driver.get("https://automationfc.github.io/multiple-fields/");
@@ -263,7 +263,7 @@ public class Topic_11_Button_DefaultRadio_Checkbox {
     	
     }
     
-    @Test
+    //@Test
     public void TC_08_Custom_Radio_Google() {
     	driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
     	By haNoiCityRadio = By.xpath("//div[@aria-label='Hà Nội']");
