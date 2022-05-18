@@ -36,10 +36,10 @@ public class demo_eBox_vne {
 	public void TC_01_Login_iframe() {
     	
     	driver.get("https://ebox.vnexpress.net/");
-    	driver.findElement(By.xpath("//p[@class='group-btn-inline']//following-sibling::a")).click();
+    	driver.findElement(By.cssSelector("div.item-post:nth-child(3) a.btn-ebox")).click();
     	sleepInSecond(2);
-    	driver.findElement(By.xpath("//button[@class='btn btn-add-to-cart add-to-cart pc btn_buy_21']")).click();
-    	sleepInSecond(2);
+    	driver.findElement(By.cssSelector("section#payment .btn-add-to-cart.pc")).click();
+    	sleepInSecond(5);
     	
     	//Switch vào iframe login vne này trước
     	driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@class='mfp-iframe iframe_guest']")));    	
@@ -55,8 +55,8 @@ public class demo_eBox_vne {
     	driver.switchTo().defaultContent();
     	sleepInSecond(3);
     	
-    	driver.findElement(By.xpath("//button[@class='btn btn-add-to-cart add-to-cart pc btn_buy_21']")).click();
-    	sleepInSecond(2);
+    	driver.findElement(By.cssSelector("section#payment .btn-add-to-cart.pc")).click();
+    	sleepInSecond(5);
     	
     	//chuyển đến trang Mua vé cá nhân
     	driver.findElement(By.xpath("//button[@id='btnOrderPersonal']")).click();
