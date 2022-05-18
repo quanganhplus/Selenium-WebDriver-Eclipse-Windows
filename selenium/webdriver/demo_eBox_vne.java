@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
-public class Topic_07_demo_eBox_vne {
+public class demo_eBox_vne {
 
 	//Khai báo 1 biến đại diện cho Selenium WebDriver
     WebDriver driver;
